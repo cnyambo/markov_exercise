@@ -21,23 +21,11 @@ class MarkovMachine {
     let dic = {};
     let occurrence = this.words.reduce(function (acc, curr) { return acc[curr] ? ++acc[curr] : acc[curr] = 1, acc  }, {});
     for(let i =0; i<this.words.length; i++) {
-        if (occurrence[this.words[i]] == 1)
-        {
-            if( i != this.words.length -1) { dic[this.words[i]]=[this.words[i+1]]}
-            else{dic[this.words[i]]=[null]}
-        }
-        else if (occurrence[this.words[i]] > 1   )
-        {
-            if(i != this.words.length -1){
-                if (!dic[this.words[i]]) {
-                    dic[this.words[i]] = [this.words[i+1]];
-                }
-                else{dic[this.words[i]].push(this.words[i+1]) }  
-            }else{ dic[this.words[i]].push(null)  }            
-        }
-    } 
-      //console.log(dic)
-      return dic;
+          if(i == this.words.length -1) {
+          dic[this.words[i]] ? dic[this.words[i]].push(null) : dic[this.words[i]] = [null] ;
+        }else { dic[this.words[i]] ? dic[this.words[i]].push(this.words[i+1]) : dic[this.words[i]] = [this.words[i+1]]; }       
+    }
+    return dic;
   }
 
 
@@ -54,8 +42,8 @@ class MarkovMachine {
       chainKeys.push(i);
     }
 
-    if(numWords){
-      for(let i = 0; i< numWords; i++)  {
+    if(numWords) {
+      for(let i = 0; i < numWords; i++)  {
         let randVal = Math.floor(Math.random() * chainLength);
         if(randomText.length < numWords) {
           let chaineValues = chainText[chainKeys[randVal]] ;
@@ -68,7 +56,7 @@ class MarkovMachine {
           }
          
         }
-        else{break}
+        else{break;}
       }
     }
     else {
@@ -76,7 +64,7 @@ class MarkovMachine {
       let chaineValues = chainText[chainKeys[randVal]];
       let randNewVal= Math.floor(Math.random() * chaineValues.length);
       if(chaineValues.length == 1 &&  chaineValues[0] == null) {
-        randomText = randomText + ' ' + chainKeys[randVal]
+        randomText = randomText + ' ' + chainKeys[randVal];
       }
       else {
          randomText = randomText + ' ' + chainKeys[randVal] + ' ' + chaineValues[randNewVal];
@@ -88,7 +76,7 @@ class MarkovMachine {
   
 }
 
-let mm = new MarkovMachine("the cat in the hat");
+let mm = new MarkovMachine("the cat in the hat is in the hat");
 mm.makeText();
 //mm.makeText(numWords=50);
 //mm.makeText(numWords=10);
